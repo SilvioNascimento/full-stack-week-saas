@@ -2,8 +2,7 @@ import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-const name = ""; 
-const name2 = "";
+const name = "";
 
 const Home = async () => {
   const { userId } = await auth();
