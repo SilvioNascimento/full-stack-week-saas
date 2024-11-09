@@ -28,12 +28,19 @@ export const upsertTransaction = async (params: UpsertTransactionParams) => {
     throw new Error("Usuário não autorizado!");
   }
 
-  await db.transaction.upsert({
-    where: {
-      id: params.id,
-    },
-    update: { ...params, userId },
-    create: { ...params, userId },
-  });
+  if (params.id) {
+    // Usar upsert se o ID estiver definido
+    await db.transaction.upsert({
+      where: { id: params.id },
+      update: { ...params, userId },
+      create: { ...params, userId },
+    });
+  } else {
+    // Usar create se o ID não estiver definido
+    await db.transaction.create({
+      data: { ...params, userId },
+    });
+  }
+  
   revalidatePath("/transactions");
 };
