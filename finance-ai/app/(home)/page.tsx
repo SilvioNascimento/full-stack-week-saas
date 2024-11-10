@@ -19,6 +19,8 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
 
   // Verifica se o mês que foi inserido no query params está com formato correto ou se não foi fornecido
   const monthIsInvalid = !month || !isMatch(month, 'MM')
+
+  // Caso o mês fornecido for inválido, redireciona para o dashboard no mês de Janeiro
   if(monthIsInvalid) {
     redirect('/?month=01')
   }
