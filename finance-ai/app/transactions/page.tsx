@@ -5,30 +5,30 @@ import AddTransactionButton from "../_components/add-transaction-button";
 import Navbar from "../_components/navbar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { ScrollArea } from "../_components/ui/scroll-area";
 
 const TransactionsPage = async () => {
-  const {userId} = await auth();
-  // Se tentar acessar a página de transação sem estar logado, então será redirecionado para a página de login
+  const { userId } = await auth();
   if (!userId) {
-    redirect("/login")
+    redirect("/login");
   }
-  // Acessar as transações no meu banco de dados
   const transactions = await db.transaction.findMany({
     where: {
       userId,
-    }
+    },
   });
   return (
     <>
       <Navbar />
-      <div className="space-y-6 p-6">
-        {/*TÍTULO E BOTÃO*/}
+      <div className="space-y-6 h-full overflow-y-auto p-6">
+        {/* TÍTULO E BOTÃO */}
         <div className="flex w-full items-center justify-between">
           <h1 className="text-2xl font-bold">Transações</h1>
           <AddTransactionButton />
         </div>
-
-        <DataTable columns={transactionColumns} data={transactions} />
+        <ScrollArea className="h-[500px] overflow-y-auto">
+          <DataTable columns={transactionColumns} data={transactions} />
+        </ScrollArea>
       </div>
     </>
   );

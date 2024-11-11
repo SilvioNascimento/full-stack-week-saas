@@ -6,8 +6,7 @@ import { dark } from "@clerk/themes";
 
 const mulish = Mulish({
   subsets: ["latin-ext"],
-
-})
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,15 +20,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${mulish.className} dark antialiased`}
-      >
+      <body className={`${mulish.className} dark antialiased`}>
         <ClerkProvider
           appearance={{
             baseTheme: dark,
           }}
         >
-          {children}
+          <div className="flex h-screen flex-col overflow-y-auto">{children}</div>
         </ClerkProvider>
       </body>
     </html>

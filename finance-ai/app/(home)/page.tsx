@@ -6,7 +6,7 @@ import TimeSelect from "./_components/time-select";
 import { isMatch } from "date-fns";
 import TransactionsPieChart from "./_components/transactions-pie-chart";
 import { getDashboard } from "../_data/get-dashboard";
-import ExpensePerCategory from "./_components/expenses-per-category";
+import ExpensesPerCategory from "./_components/expenses-per-category";
 import LastTransactions from "./_components/last-transactions";
 
 interface HomeProps {
@@ -20,35 +20,30 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
   if (!userId) {
     redirect("/login");
   }
-
-  // Verifica se o mês que foi inserido no query params está com formato correto ou se não foi fornecido
   const monthIsInvalid = !month || !isMatch(month, "MM");
-
-  // Caso o mês fornecido for inválido, redireciona para o dashboard no mês de Janeiro
   if (monthIsInvalid) {
-    redirect("/?month=01");
+    redirect(`?month=${new Date().getMonth() + 1}`);
   }
-
   const dashboard = await getDashboard(month);
-
   return (
     <>
       <Navbar />
-      <div className="space-y-6 p-6">
+      <div className="flex flex-col space-y-6 h-full overflow-y-auto p-6">
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <TimeSelect />
         </div>
-
-        <div className="grid grid-cols-[2fr,1fr] gap-6">
-          <div className="flex flex-col gap-6">
+        <div className="grid h-full grid-cols-[2fr,1fr] gap-6">
+          <div className="flex flex-col gap-6 h-full overflow-y-auto">
             <SummaryCards month={month} {...dashboard} />
             <div className="grid grid-cols-3 grid-rows-1 gap-6">
               <TransactionsPieChart {...dashboard} />
-              <ExpensePerCategory expensesPerCategory={dashboard.totalExpensePerCategory}/>
+              <ExpensesPerCategory
+                expensesPerCategory={dashboard.totalExpensePerCategory}
+              />
             </div>
           </div>
-          <LastTransactions lastTransactions={dashboard.lastTransactions}/>
+          <LastTransactions lastTransactions={dashboard.lastTransactions} />
         </div>
       </div>
     </>

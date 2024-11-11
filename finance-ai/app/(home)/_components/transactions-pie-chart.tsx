@@ -49,17 +49,16 @@ const TransactionsPieChart = ({
       fill: "#55B02E",
     },
     {
-      type: TransactionType.INVESTMENT,
-      amount: investmentsTotal,
-      fill: "#FFFFFF",
-    },
-    {
       type: TransactionType.EXPENSE,
       amount: expensesTotal,
       fill: "#E93030",
     },
+    {
+      type: TransactionType.INVESTMENT,
+      amount: investmentsTotal,
+      fill: "#FFFFFF",
+    },
   ];
-
   return (
     <Card className="flex flex-col p-6">
       <CardContent className="flex-1 pb-0">
@@ -87,13 +86,11 @@ const TransactionsPieChart = ({
             title="Receita"
             value={typesPercentage[TransactionType.DEPOSITE]}
           />
-
           <PercentageItem
             icon={<TrendingDownIcon size={16} className="text-red-500" />}
-            title="Despesa"
+            title="Despesas"
             value={typesPercentage[TransactionType.EXPENSE]}
           />
-
           <PercentageItem
             icon={<PiggyBankIcon size={16} />}
             title="Investido"
